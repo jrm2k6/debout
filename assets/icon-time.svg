@@ -1,0 +1,22 @@
+
+<svg width="43px" height="41px" viewBox="0 0 43 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="0.25781251%" y1="49.7500002%" x2="101.257813%" y2="49.7500002%" id="linearGradient-1">
+            <stop stop-color="#3023AE" offset="0%"></stop>
+            <stop stop-color="#85B6F1" offset="100%"></stop>
+            <stop stop-color="#B4EC51" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone8" transform="translate(-24.000000, -313.000000)">
+            <g id="Directions" transform="translate(24.000000, 87.000000)">
+                <g id="Active-Hours" transform="translate(0.000000, 226.000000)">
+                    <g id="icon-time">
+                        <ellipse id="Oval" fill="url(#linearGradient-1)" cx="21.5" cy="20.5" rx="21.5" ry="20.5"></ellipse>
+                        <path d="M23.0401779,19.7728396 L29.5044625,26.5122111 C30.1969343,27.3426776 30.1594445,28.5889449 29.418419,29.3725412 C28.6773936,30.1561375 27.4826482,30.2128954 26.676338,29.5028073 L19.6060267,22.1316197 C19.2204813,21.7376372 19.0022411,21.1991558 19,20.6363216 L19,10.1060536 C19,8.94291231 19.9044246,8 21.020089,8 C22.1357533,8 23.0401779,8.94291231 23.0401779,10.1060536 L23.0401779,19.7728396 Z" id="Path" fill="#FCFCFC"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
