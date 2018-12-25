@@ -29,7 +29,6 @@ class IntervalPickerWidgetState extends State<IntervalPickerWidget> {
                               child: CupertinoPicker(
                                 scrollController: new FixedExtentScrollController(initialItem: (widget.interval == 'hour') ? 0 : 1),
                                 itemExtent: 40,
-                                backgroundColor: CupertinoColors.white,
                                 onSelectedItemChanged: (index) {
                                   String interval = (index == 0) ? 'hour' : 'day';
                                   widget.updateInterval(interval);
