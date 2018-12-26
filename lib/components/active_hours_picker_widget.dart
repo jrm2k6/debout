@@ -42,7 +42,6 @@ class ActiveHoursPickerState extends State<ActiveHoursPickerWidget> {
                               itemExtent: 40,
                               onSelectedItemChanged: (index) {
                                 String timeOfDay = (index == 0) ? 'am' : 'pm';
-                                print('$index, $timeOfDay');
                                 widget.updateTimeOfDay(timeOfDay);
                               },
                               children: <Widget>[
