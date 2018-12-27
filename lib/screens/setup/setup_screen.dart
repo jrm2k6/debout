@@ -1,4 +1,5 @@
 import 'package:debout/screens/setup/setup_bloc.dart';
+import 'package:debout/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:debout/components/active_hours_picker_widget.dart';
@@ -88,9 +89,9 @@ class StandingTimeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final setupBloc = SetupProvider.of(context);
-    return StreamBuilder<String>(
+    return StreamBuilder<UnitTime>(
       stream: setupBloc.currentPeriod,
-      initialData: 'minutes',
+      initialData: UnitTime.MINUTE,
       builder: (context, snapshotCurrentPeriod) {
         return StreamBuilder<int>(
           stream: setupBloc.currentStandingTime,
@@ -101,9 +102,9 @@ class StandingTimeSection extends StatelessWidget {
               children: <Widget>[
                 Text('I want to stand for ', style: getContentTextStyle()),
                 StandingTimePickerWidget(
-                  period: snapshotCurrentPeriod.data,
+                  period: unitTimeToString(snapshotCurrentPeriod.data),
                   standingTime: snapshotCurrentStandingTime.data,
-                  updatePeriod: setupBloc.period.add,
+                  updatePeriod: (val) {  setupBloc.period.add(stringToUnitTime(val)); },
                   updateStandingTime: setupBloc.standingTime.add
                 ),
               ],
@@ -119,16 +120,19 @@ class IntervalSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SetupBloc setupBloc = SetupProvider.of(context);
-    return StreamBuilder<String>(
+    return StreamBuilder<UnitTime>(
       stream: setupBloc.currentInterval,
-      initialData: 'hour',
+      initialData: UnitTime.HOUR,
       builder: (context, snapshot) {
         return Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text('every ', style: getContentTextStyle()),
-              IntervalPickerWidget(interval: snapshot.data, updateInterval: setupBloc.interval.add),
+              IntervalPickerWidget(
+                interval: unitTimeToString(snapshot.data),
+                updateInterval: (val) { setupBloc.interval.add(stringToUnitTime(val)); }
+              ),
             ]
         );
       },

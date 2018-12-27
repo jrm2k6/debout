@@ -1,23 +1,25 @@
 import 'dart:async';
 
+import 'package:debout/utils/constants.dart';
 import 'package:rxdart/subjects.dart';
 
 class SetupBloc {
   final BehaviorSubject<int> _standingTime = BehaviorSubject<int>(seedValue: 10);
-  final BehaviorSubject<String> _period = BehaviorSubject<String>(seedValue: 'minutes');
-  final BehaviorSubject<String> _interval = BehaviorSubject<String>(seedValue: 'hour');
+  final BehaviorSubject<UnitTime> _period = BehaviorSubject<UnitTime>(seedValue: UnitTime.MINUTE);
+  final BehaviorSubject<UnitTime> _interval = BehaviorSubject<UnitTime>(seedValue: UnitTime.HOUR);
   final BehaviorSubject<int> _startTime = BehaviorSubject<int>(seedValue: 9);
   final BehaviorSubject<int> _endTime = BehaviorSubject<int>(seedValue: 5);
   final BehaviorSubject<String> _startTimePeriod = BehaviorSubject<String>(seedValue: 'am');
   final BehaviorSubject<String> _endTimePeriod = BehaviorSubject<String>(seedValue: 'pm');
 
   final StreamController<int> standingTimeController = StreamController<int>();
-  final StreamController<String> periodController = StreamController<String>();
-  final StreamController<String> intervalController = StreamController<String>();
+  final StreamController<UnitTime> periodController = StreamController<UnitTime>();
+  final StreamController<UnitTime> intervalController = StreamController<UnitTime>();
   final StreamController<int> startTimeController = StreamController<int>();
   final StreamController<int> endTimeController = StreamController<int>();
   final StreamController<String> startTimePeriodController = StreamController<String>();
   final StreamController<String> endTimePeriodController = StreamController<String>();
+
 
 
   SetupBloc() {
@@ -25,11 +27,11 @@ class SetupBloc {
       this._standingTime.add(_standingTime);
     });
 
-    periodController.stream.listen((String _period) {
+    periodController.stream.listen((UnitTime _period) {
       this._period.add(_period);
     });
 
-    intervalController.stream.listen((String _interval) {
+    intervalController.stream.listen((UnitTime _interval) {
       this._interval.add(_interval);
     });
 
@@ -51,16 +53,16 @@ class SetupBloc {
   }
 
   Sink<int> get standingTime => standingTimeController.sink;
-  Sink<String> get period => periodController.sink;
-  Sink<String> get interval => intervalController.sink;
+  Sink<UnitTime> get period => periodController.sink;
+  Sink<UnitTime> get interval => intervalController.sink;
   Sink<int> get startTime => startTimeController.sink;
   Sink<int> get endTime => endTimeController.sink;
   Sink<String> get startTimePeriod => startTimePeriodController.sink;
   Sink<String> get endTimePeriod=> endTimePeriodController.sink;
 
   Stream<int> get currentStandingTime => _standingTime.stream;
-  Stream<String> get currentPeriod => _period.stream;
-  Stream<String> get currentInterval => _interval.stream;
+  Stream<UnitTime> get currentPeriod => _period.stream;
+  Stream<UnitTime> get currentInterval => _interval.stream;
   Stream<int> get currentStartTime => _startTime.stream;
   Stream<int> get currentEndTime => _endTime.stream;
   Stream<String> get currentStartTimePeriod => _startTimePeriod.stream;

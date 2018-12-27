@@ -42,10 +42,10 @@ class StandingTimePickerWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: CupertinoPicker(
-                        scrollController: new FixedExtentScrollController(initialItem: (this.period == 'minutes') ? 0 : 1),
+                        scrollController: new FixedExtentScrollController(initialItem: (this.period == 'minute') ? 0 : 1),
                         itemExtent: 40,
                         onSelectedItemChanged: (index) {
-                          String period = (index == 0) ? 'minutes' : 'hours';
+                          String period = (index == 0) ? 'minute' : 'hour';
                           this.updatePeriod(period);
                         },
                         children: <Widget>[
@@ -70,8 +70,8 @@ class StandingTimePickerWidget extends StatelessWidget {
 
   String getStandingTime() {
     String period = this.period;
-    if (this.standingTime <= 1) {
-      period = (this.period == 'minutes') ? 'minute' : 'hour';
+    if (this.standingTime > 1) {
+      period = (this.period == 'minute') ? 'minutes' : 'hours';
     }
 
     return '${this.standingTime} $period';
