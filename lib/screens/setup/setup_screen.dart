@@ -32,60 +32,90 @@ class SetupWidget extends StatelessWidget {
         color: Colors.white,
         child: Column(
             children: [
-              Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        SectionHeader(asset: 'assets/icon-launch.svg', size: 48.0),
-                        StandingTimeSection(),
-                        IntervalSection(),
-                      ],
-                    ),
-                  )
-              ),
-              Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        SectionHeader(asset: 'assets/icon-time.svg', size: 48.0),
-                        ActiveHoursStartSection(),
-                        ActiveHoursEndSection(),
-                      ],
-                    ),
-                  )
-              ),
-
+              GetStartedTopSection(),
+              GetStartedBottomSection(),
               Expanded(
                   flex: 1,
                   child: GestureDetector(
-                      onTap: () {
+                    onTap: () {
 //                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllowNotificationScreen()));
-                      },
-                      child: Container(
-                        decoration: getBaseGradientBackground(),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text('Next', style: getButtonBaseTextStyle()),
-                            Icon(Icons.navigate_next, color: Color(0xFFFFFFFF), size: 40.0,)
-                          ],
-                        ),
-                      )
-                  )
+                    },
+                    child: Container(
+                      decoration: getBaseGradientBackground(),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Next', style: getButtonBaseTextStyle()),
+                          Icon(Icons.navigate_next, color: Color(0xFFFFFFFF), size: 40.0,)
+                        ],
+                      ),
+                    )
+                )
               )
             ]
         )
     );
 }
 
+class GetStartedTopSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    SetupBloc setupBloc = SetupProvider.of(context);
+    return StreamBuilder<bool>(
+      stream: setupBloc.isStandingTimeSectionValid,
+      initialData: true,
+      builder: (context, snapshot) =>
+        Expanded(
+          flex: 3,
+          child: Container(
+            padding: EdgeInsets.only(left: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SectionHeader(asset: 'assets/icon-launch.svg', size: 48.0),
+                StandingTimeSection(hasError: !snapshot.data),
+                IntervalSection(hasError: !snapshot.data),
+              ],
+            ),
+          )
+        ),
+    );
+  }
+}
+
+class GetStartedBottomSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    SetupBloc setupBloc = SetupProvider.of(context);
+
+    return StreamBuilder<bool>(
+      stream: setupBloc.isStandingTimeSectionValid,
+      initialData: true,
+      builder: (context, snapshot) =>
+        Expanded(
+          flex: 3,
+          child: Container(
+            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SectionHeader(asset: 'assets/icon-time.svg', size: 48.0),
+                ActiveHoursStartSection(),
+                ActiveHoursEndSection(),
+              ],
+            ),
+          )
+      ),
+    );
+  }
+
+}
+
 class StandingTimeSection extends StatelessWidget {
+  final bool hasError;
+
+  StandingTimeSection({ Key key, @required this.hasError }): super(key: key);
   @override
   Widget build(BuildContext context) {
     final setupBloc = SetupProvider.of(context);
@@ -105,7 +135,8 @@ class StandingTimeSection extends StatelessWidget {
                   period: unitTimeToString(snapshotCurrentPeriod.data),
                   standingTime: snapshotCurrentStandingTime.data,
                   updatePeriod: (val) {  setupBloc.period.add(stringToUnitTime(val)); },
-                  updateStandingTime: setupBloc.standingTime.add
+                  updateStandingTime: setupBloc.standingTime.add,
+                  hasError: this.hasError
                 ),
               ],
             );
@@ -117,6 +148,9 @@ class StandingTimeSection extends StatelessWidget {
 }
 
 class IntervalSection extends StatelessWidget {
+  final bool hasError;
+
+  IntervalSection({ Key key, @required this.hasError}): super(key: key);
   @override
   Widget build(BuildContext context) {
     final SetupBloc setupBloc = SetupProvider.of(context);
@@ -131,7 +165,8 @@ class IntervalSection extends StatelessWidget {
               Text('every ', style: getContentTextStyle()),
               IntervalPickerWidget(
                 interval: unitTimeToString(snapshot.data),
-                updateInterval: (val) { setupBloc.interval.add(stringToUnitTime(val)); }
+                updateInterval: (val) { setupBloc.interval.add(stringToUnitTime(val)); },
+                hasError: this.hasError,
               ),
             ]
         );
@@ -200,5 +235,4 @@ class ActiveHoursEndSection extends StatelessWidget {
         }
     );
   }
-
 }

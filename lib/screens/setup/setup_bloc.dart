@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:debout/screens/setup/validators.dart';
 import 'package:debout/utils/constants.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
 class SetupBloc {
@@ -67,6 +69,9 @@ class SetupBloc {
   Stream<int> get currentEndTime => _endTime.stream;
   Stream<String> get currentStartTimePeriod => _startTimePeriod.stream;
   Stream<String> get currentEndTimePeriod => _endTimePeriod.stream;
+
+  Stream<bool> get isStandingTimeSectionValid => Observable.combineLatest3(
+      currentStandingTime, currentPeriod, currentInterval, Validators.validateStandingTimeSection);
 
   void dispose() {
     _standingTime.close();

@@ -45,6 +45,20 @@ BoxDecoration getInputBoxDecoration() {
   );
 }
 
+TextStyle getContentErrorTextStyleBold() {
+  return TextStyle(
+      color: Color(0xFFFF0000),
+      fontSize: 18.0,
+      fontWeight: FontWeight.bold
+  );
+}
+
+BoxDecoration getErrorInputBoxDecoration() {
+  return BoxDecoration(
+    border: Border.all(width: 2.0, color: Color(0xFFFF0000)),
+  );
+}
+
 EdgeInsets getInputBoxPadding() => EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0);
 
 TextStyle getDefaultPickerTextStyle() {

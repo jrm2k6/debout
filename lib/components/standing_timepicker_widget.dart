@@ -6,10 +6,18 @@ import 'package:flutter/material.dart';
 class StandingTimePickerWidget extends StatelessWidget {
   final String period;
   final int standingTime;
+  final bool hasError;
   final void Function(String val) updatePeriod;
   final void Function(int val) updateStandingTime;
 
-  StandingTimePickerWidget({ Key key, this.period, this.standingTime, this.updatePeriod, this.updateStandingTime}): super(key: key);
+  StandingTimePickerWidget({
+    Key key,
+    this.period,
+    this.standingTime,
+    this.updatePeriod,
+    this.updateStandingTime,
+    this.hasError
+  }): super(key: key);
 
   getStandingTimeChoices() {
     List<Widget> choices = new List();
@@ -61,9 +69,9 @@ class StandingTimePickerWidget extends StatelessWidget {
           );
         },
         child: Container(
-          decoration: getInputBoxDecoration(),
+          decoration: this.hasError ? getErrorInputBoxDecoration() : getInputBoxDecoration(),
           padding: getInputBoxPadding(),
-          child: Text(getStandingTime(), style: getContentTextStyleBold()),
+          child: Text(getStandingTime(), style: this.hasError ? getContentErrorTextStyleBold() : getContentTextStyleBold()),
         )
     );
   }

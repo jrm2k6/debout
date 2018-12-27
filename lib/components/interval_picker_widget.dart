@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 
 class IntervalPickerWidget extends StatelessWidget {
   final String interval;
+  final bool hasError;
   final void Function(String selectedInterval) updateInterval;
 
-  IntervalPickerWidget({Key key, this.interval, this.updateInterval}): super(key: key);
+  IntervalPickerWidget({Key key, this.interval, this.updateInterval, this.hasError}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +43,8 @@ class IntervalPickerWidget extends StatelessWidget {
           );
         },
         child: Container(
-          child: Text('${this.interval}', style: getContentTextStyleBold()),
-          decoration: getInputBoxDecoration(),
+          child: Text('${this.interval}', style: this.hasError ? getContentErrorTextStyleBold() : getContentTextStyleBold()),
+          decoration: this.hasError ? getErrorInputBoxDecoration() : getInputBoxDecoration(),
           padding: getInputBoxPadding(),
         )
     );
