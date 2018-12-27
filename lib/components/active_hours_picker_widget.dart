@@ -2,7 +2,8 @@ import 'package:debout/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ActiveHoursPickerWidget extends StatefulWidget {
+
+class ActiveHoursPickerWidget extends StatelessWidget {
   final int time;
   final String timeOfDay;
   final void Function(int val) updateTime;
@@ -10,12 +11,6 @@ class ActiveHoursPickerWidget extends StatefulWidget {
 
   ActiveHoursPickerWidget({ Key key, this.time, this.timeOfDay, this.updateTime, this.updateTimeOfDay }): super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => ActiveHoursPickerState();
-
-}
-
-class ActiveHoursPickerState extends State<ActiveHoursPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -30,19 +25,19 @@ class ActiveHoursPickerState extends State<ActiveHoursPickerWidget> {
                       children: <Widget>[
                         Expanded(
                             child: CupertinoPicker(
-                              scrollController: new FixedExtentScrollController(initialItem: widget.time),
+                              scrollController: new FixedExtentScrollController(initialItem: this.time),
                               itemExtent: 40,
-                              onSelectedItemChanged: widget.updateTime,
+                              onSelectedItemChanged: this.updateTime,
                               children: new List<Widget>.generate(13, (index) => new Center(child: Text('$index', style:getDefaultPickerTextStyle()))),
                             )
                         ),
                         Expanded(
                             child: CupertinoPicker(
-                              scrollController: new FixedExtentScrollController(initialItem: (widget.timeOfDay == 'am') ? 0 : 1),
+                              scrollController: new FixedExtentScrollController(initialItem: (this.timeOfDay == 'am') ? 0 : 1),
                               itemExtent: 40,
                               onSelectedItemChanged: (index) {
                                 String timeOfDay = (index == 0) ? 'am' : 'pm';
-                                widget.updateTimeOfDay(timeOfDay);
+                                this.updateTimeOfDay(timeOfDay);
                               },
                               children: <Widget>[
                                 Align(child: Text('AM', style: getDefaultPickerTextStyle()), alignment: Alignment.centerLeft),
@@ -57,16 +52,15 @@ class ActiveHoursPickerState extends State<ActiveHoursPickerWidget> {
           );
         },
         child: Container(
-            child: Text(getTime(), style: getContentTextStyleBold()),
-            decoration: getInputBoxDecoration(),
-            padding: getInputBoxPadding(),
+          child: Text(getTime(), style: getContentTextStyleBold()),
+          decoration: getInputBoxDecoration(),
+          padding: getInputBoxPadding(),
         )
     );
   }
 
   String getTime() {
-    return '${widget.time} ${widget.timeOfDay.toUpperCase()}';
-
+    return '${this.time} ${this.timeOfDay.toUpperCase()}';
   }
 
 }
