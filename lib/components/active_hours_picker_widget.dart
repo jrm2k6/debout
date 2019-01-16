@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 class ActiveHoursPickerWidget extends StatelessWidget {
   final int time;
   final String timeOfDay;
+  final bool hasError;
   final void Function(int val) updateTime;
   final void Function(String val) updateTimeOfDay;
 
-  ActiveHoursPickerWidget({ Key key, this.time, this.timeOfDay, this.updateTime, this.updateTimeOfDay }): super(key: key);
+  ActiveHoursPickerWidget({ Key key, this.time, this.timeOfDay, this.updateTime, this.updateTimeOfDay, this.hasError }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +53,8 @@ class ActiveHoursPickerWidget extends StatelessWidget {
           );
         },
         child: Container(
-          child: Text(getTime(), style: getContentTextStyleBold()),
-          decoration: getInputBoxDecoration(),
+          child: Text(getTime(), style: this.hasError ? getContentErrorTextStyleBold() : getContentTextStyleBold()),
+          decoration: this.hasError ? getErrorInputBoxDecoration() : getInputBoxDecoration(),
           padding: getInputBoxPadding(),
         )
     );

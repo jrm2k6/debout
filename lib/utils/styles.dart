@@ -15,11 +15,33 @@ BoxDecoration getBaseGradientBackground() {
   );
 }
 
+BoxDecoration getDisabledGradientBackground() {
+  return BoxDecoration(
+    gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0.0, 1.0],
+        colors: [
+          Color(0xFF403F42).withOpacity(0.72),
+          Color(0xFFB3B4B4).withOpacity(0.72),
+        ]
+    ),
+  );
+}
+
 TextStyle getButtonBaseTextStyle() {
   return TextStyle(
     color: Color(0xFFFFFFFF),
     fontSize: 28.0,
     fontWeight: FontWeight.bold
+  );
+}
+
+TextStyle getDisabledButtonTextStyle() {
+  return TextStyle(
+      color: Color(0xFFCBC7C7),
+      fontSize: 28.0,
+      fontWeight: FontWeight.bold
   );
 }
 

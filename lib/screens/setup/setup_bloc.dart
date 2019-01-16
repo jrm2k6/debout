@@ -73,6 +73,11 @@ class SetupBloc {
   Stream<bool> get isStandingTimeSectionValid => Observable.combineLatest3(
       currentStandingTime, currentPeriod, currentInterval, Validators.validateStandingTimeSection);
 
+  Stream<bool> get isActiveHoursSectionValid => Observable.combineLatest4(
+      currentStartTime, currentStartTimePeriod, currentEndTime, currentEndTimePeriod, Validators.validateActiveHours);
+
+  Stream<bool> get isSetupValidated => Observable.combineLatest2(isStandingTimeSectionValid, isActiveHoursSectionValid, (s1, s2) => s1 && s2);
+
   void dispose() {
     _standingTime.close();
     _period.close();

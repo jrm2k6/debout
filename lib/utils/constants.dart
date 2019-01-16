@@ -17,3 +17,10 @@ UnitTime stringToUnitTime(String val) {
 
   return mapping[val];
 }
+
+enum DayPeriod {
+  AM,
+  PM
+}
+
+bool isFirstPeriodBeforeSecond(DayPeriod p1, DayPeriod p2) => (p1 == DayPeriod.AM && p2 == DayPeriod.PM);

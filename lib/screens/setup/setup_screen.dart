@@ -1,3 +1,4 @@
+import 'package:debout/screens/setup/allow_notifications_screen.dart';
 import 'package:debout/screens/setup/setup_bloc.dart';
 import 'package:debout/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,29 +35,46 @@ class SetupWidget extends StatelessWidget {
             children: [
               GetStartedTopSection(),
               GetStartedBottomSection(),
-              Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-//                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllowNotificationScreen()));
-                    },
-                    child: Container(
-                      decoration: getBaseGradientBackground(),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text('Next', style: getButtonBaseTextStyle()),
-                          Icon(Icons.navigate_next, color: Color(0xFFFFFFFF), size: 40.0,)
-                        ],
-                      ),
-                    )
-                )
-              )
+              NextButton(),
             ]
         )
     );
 }
+
+class NextButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    SetupBloc setupBloc = SetupProvider.of(context);
+    return StreamBuilder<bool>(
+      stream: setupBloc.isSetupValidated,
+      initialData: true,
+      builder: (context, snapshot) =>
+        Expanded(
+          flex: 1,
+          child: GestureDetector(
+            onTap: () {
+              if (snapshot.data) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllowNotificationsScreen()));
+              }
+            },
+            child: Container(
+              decoration: (snapshot.data) ? getBaseGradientBackground() : getDisabledGradientBackground(),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Next', style: (snapshot.data) ? getButtonBaseTextStyle() : getDisabledButtonTextStyle()),
+                  Icon(Icons.navigate_next, color: (snapshot.data) ? Color(0xFFFFFFFF) :  Color(0xFFCBC7C7), size: 40.0,)
+                ],
+              ),
+            )
+          )
+        )
+    );
+  }
+
+}
+
 
 class GetStartedTopSection extends StatelessWidget {
   @override
@@ -90,7 +108,7 @@ class GetStartedBottomSection extends StatelessWidget {
     SetupBloc setupBloc = SetupProvider.of(context);
 
     return StreamBuilder<bool>(
-      stream: setupBloc.isStandingTimeSectionValid,
+      stream: setupBloc.isActiveHoursSectionValid,
       initialData: true,
       builder: (context, snapshot) =>
         Expanded(
@@ -101,8 +119,8 @@ class GetStartedBottomSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 SectionHeader(asset: 'assets/icon-time.svg', size: 48.0),
-                ActiveHoursStartSection(),
-                ActiveHoursEndSection(),
+                ActiveHoursStartSection(hasError: !snapshot.data),
+                ActiveHoursEndSection(hasError: !snapshot.data),
               ],
             ),
           )
@@ -176,6 +194,10 @@ class IntervalSection extends StatelessWidget {
 }
 
 class ActiveHoursStartSection extends StatelessWidget {
+  final bool hasError;
+
+  ActiveHoursStartSection({ Key key, @required this.hasError}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final SetupBloc setupBloc = SetupProvider.of(context);
@@ -195,7 +217,8 @@ class ActiveHoursStartSection extends StatelessWidget {
                   time: snapshotStartTime.data,
                   timeOfDay: snapshotStartTimePeriod.data,
                   updateTime: setupBloc.startTime.add,
-                  updateTimeOfDay: setupBloc.startTimePeriod.add
+                  updateTimeOfDay: setupBloc.startTimePeriod.add,
+                  hasError: this.hasError,
                 ),
               ],
             );
@@ -207,6 +230,10 @@ class ActiveHoursStartSection extends StatelessWidget {
 }
 
 class ActiveHoursEndSection extends StatelessWidget {
+  final bool hasError;
+
+  ActiveHoursEndSection({ Key key, @required this.hasError}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final SetupBloc setupBloc = SetupProvider.of(context);
@@ -226,7 +253,8 @@ class ActiveHoursEndSection extends StatelessWidget {
                     time: snapshotEndTime.data,
                     timeOfDay: snapshotEndTimePeriod.data,
                     updateTime: setupBloc.endTime.add,
-                    updateTimeOfDay: setupBloc.endTimePeriod.add
+                    updateTimeOfDay: setupBloc.endTimePeriod.add,
+                    hasError: this.hasError,
                   ),
                 ],
               );
