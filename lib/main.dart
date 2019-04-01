@@ -1,4 +1,5 @@
 import 'package:debout/screens/setup/setup_screen.dart';
+import 'package:debout/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -14,7 +15,7 @@ class DeboutApp extends StatelessWidget {
         primarySwatch: Colors.red,
         fontFamily: 'OpenSans',
       ),
-      home: SetupWidget(),
+      home: SplashScreen(),
     );
   }
 }
